@@ -193,14 +193,14 @@ void KinematicMatrix::FillAll(EventData* ED, double weight)
    this->Fill("eta", ED->eta, ED->eta, weight, &(ED->isGood));
 
    //more observables
-   if(CS->doMjj)         this->Fill("mjj", ED->Mjj(), ED->eta, weight, ED->isLSGood());
-   if(CS->doM23)         this->Fill("m23", ED->M23(), ED->eta, weight, ED->isLSGood());
-   if(CS->doyStar)       this->Fill("yStar", ED->YStar(), ED->eta, weight, ED->isLSGood());
-   if(CS->doDeltaPhi)    this->Fill("deltaPhi", ED->deltaPhi, ED->eta, weight, ED->isLSGood());
-   if(CS->doPTBalance)   this->Fill("pTBalance", ED->pTBalance, ED->eta, weight, ED->isLSGood());
-   if(CS->doHT)          this->Fill("HT", ED->GetHT(), ED->eta, weight, ED->isLSGood());
-   if(CS->doMHT)         this->Fill("MHT", ED->MHT, ED->eta, weight, ED->isLSGood());
-   if(CS->doMHTPhi)      this->Fill("MHTPhi", ED->MHTPhi, ED->eta, weight, ED->isLSGood());
+   if(CS->doMjj)         this->Fill("mjj", ED->Mjj(), ED->eta, weight, ED->isObsGood(0,1));
+   if(CS->doM23)         this->Fill("m23", ED->M23(), ED->eta, weight, ED->isObsGood(1,2));
+   if(CS->doyStar)       this->Fill("yStar", ED->YStar(), ED->eta, weight, ED->isObsGood(0,1));
+   if(CS->doDeltaPhi)    this->Fill("deltaPhi", ED->deltaPhi, ED->eta, weight, ED->isObsGood(0,1));
+   if(CS->doPTBalance)   this->Fill("pTBalance", ED->pTBalance, ED->eta, weight, true); // NOTE: we dont consider cleaning for the following observ.
+   if(CS->doHT)          this->Fill("HT", ED->GetHT(), ED->eta, weight, true);
+   if(CS->doMHT)         this->Fill("MHT", ED->MHT, ED->eta, weight, true);
+   if(CS->doMHTPhi)      this->Fill("MHTPhi", ED->MHTPhi, ED->eta, weight, true);
    if(CS->doEMFrac)      this->Fill("EMFrac", ED->EMFrac, ED->eta, weight, &(ED->isGood));
    if(CS->doHECFrac)     this->Fill("HECFrac", ED->HECFrac, ED->eta, weight, &(ED->isGood));
    if(CS->doFracSamplingMax) this->Fill("FracSamplingMax", ED->FracSamplingMax, ED->eta, weight, &(ED->isGood));

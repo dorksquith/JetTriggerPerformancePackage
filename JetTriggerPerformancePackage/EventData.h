@@ -27,7 +27,7 @@ class EventData: public BaseJTPP
   ~EventData();
 
   // check if lead and sublead are good, so scalar obsverables are good for using
-  virtual bool isLSGood();
+  virtual bool isObsGood(int i, int j);
 
   // determine the "transverse energy" of the particle using E, pt, phi and eta
   virtual float GetEt(int n);

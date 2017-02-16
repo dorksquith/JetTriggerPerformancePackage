@@ -94,12 +94,12 @@ void TriggerHistoPack::BookAll(EL::Worker* wk)
   myTools->stringToArray(CS->MjjResponse_mjjBinning,MjjResponse_mjjBinning,",");
 
   // --- RESPONSE PLOTS
-  if (CS->doOfflineTruthResponse){
+  if ((!CS->isData) && (CS->doOfflineTruthResponse)){
       ptRespOffVsTruthMatrix = new ResponseMatrix("ptRespOffVsTruth", m_triggerDir + "/"+"ptRespOffVsTruth", CS);
       ptRespOffVsTruthMatrix ->BookAll(PtResponse_ptBinning, PtResponse_etaBinning, PtResponse_ptBinNumber, PtResponse_etaBinNumber, wk);
   }
 
-  if (CS->doTriggerTruthResponse){
+  if ((!CS->isData) && (CS->doTriggerTruthResponse)){
       ptRespTrigVsTruthMatrix = new ResponseMatrix("ptRespTrigVsTruth", m_triggerDir + "/"+"ptRespTrigVsTruth", CS);
       ptRespTrigVsTruthMatrix ->BookAll(PtResponse_ptBinning, PtResponse_etaBinning, PtResponse_ptBinNumber, PtResponse_etaBinNumber, wk);
   }
@@ -110,12 +110,12 @@ void TriggerHistoPack::BookAll(EL::Worker* wk)
   }
 
 
-  if (CS->doMjjResponseOffVsTruth){
+  if ((!CS->isData) && (CS->doMjjResponseOffVsTruth)){
       mjjRespOffVsTruthMatrix = new ResponseMatrix("mjjRespOffVsTruth", m_triggerDir + "/"+"mjjRespOffVsTruth", CS);
       mjjRespOffVsTruthMatrix ->BookAll(MjjResponse_mjjBinning, MjjResponse_etaBinning, MjjResponse_mjjBinNumber, MjjResponse_etaBinNumber, wk);
   }
 
-  if (CS->doMjjResponseTrigVsTruth){
+  if ((!CS->isData) && (CS->doMjjResponseTrigVsTruth)){
       mjjRespTrigVsTruthMatrix = new ResponseMatrix("mjjRespTrigVsTruth", m_triggerDir + "/"+"mjjRespTrigVsTruth",CS);
       mjjRespTrigVsTruthMatrix ->BookAll(MjjResponse_mjjBinning, MjjResponse_etaBinning, MjjResponse_mjjBinNumber, MjjResponse_etaBinNumber, wk);
   }
@@ -125,7 +125,86 @@ void TriggerHistoPack::BookAll(EL::Worker* wk)
       mjjRespTrigVsOffMatrix ->BookAll(MjjResponse_mjjBinning, MjjResponse_etaBinning, MjjResponse_mjjBinNumber, MjjResponse_etaBinNumber, wk);
     }
 
+
   // --- KINEMATICS
+
+  // -- Kinematic Binnings
+
+  // Kinematic_E_Binning
+  const int Kinematic_E_BinNumber = std::count(CS->Kinematic_E_Binning.begin(),CS->Kinematic_E_Binning.end(),',') +1;
+  double Kinematic_E_Binning[Kinematic_E_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_E_Binning,Kinematic_E_Binning,",");
+
+  // Kinematic_pt_Binning
+  const int Kinematic_pt_BinNumber = std::count(CS->Kinematic_pt_Binning.begin(),CS->Kinematic_pt_Binning.end(),',') +1;
+  double Kinematic_pt_Binning[Kinematic_pt_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_pt_Binning,Kinematic_pt_Binning,",");
+
+  // Kinematic_phi_Binning
+  const int Kinematic_phi_BinNumber = std::count(CS->Kinematic_phi_Binning.begin(),CS->Kinematic_phi_Binning.end(),',') +1;
+  double Kinematic_phi_Binning[Kinematic_phi_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_phi_Binning,Kinematic_phi_Binning,",");
+
+  // Kinematic_eta_Binning
+  const int Kinematic_eta_BinNumber = std::count(CS->Kinematic_eta_Binning.begin(),CS->Kinematic_eta_Binning.end(),',') +1;
+  double Kinematic_eta_Binning[Kinematic_eta_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_eta_Binning,Kinematic_eta_Binning,",");
+
+  // Kinematic_mjj_Binning
+  const int Kinematic_mjj_BinNumber = std::count(CS->Kinematic_mjj_Binning.begin(),CS->Kinematic_mjj_Binning.end(),',') +1;
+  double Kinematic_mjj_Binning[Kinematic_mjj_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_mjj_Binning,Kinematic_mjj_Binning,",");
+
+  // Kinematic_m23_Binning
+  const int Kinematic_m23_BinNumber = std::count(CS->Kinematic_m23_Binning.begin(),CS->Kinematic_m23_Binning.end(),',') +1;
+  double Kinematic_m23_Binning[Kinematic_m23_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_m23_Binning,Kinematic_m23_Binning,",");
+
+  // Kinematic_yStar_Binning
+  const int Kinematic_yStar_BinNumber = std::count(CS->Kinematic_yStar_Binning.begin(),CS->Kinematic_yStar_Binning.end(),',') +1;
+  double Kinematic_yStar_Binning[Kinematic_yStar_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_yStar_Binning,Kinematic_yStar_Binning,",");
+
+  // Kinematic_deltaPhi_Binning
+  const int Kinematic_deltaPhi_BinNumber = std::count(CS->Kinematic_deltaPhi_Binning.begin(),CS->Kinematic_deltaPhi_Binning.end(),',') +1;
+  double Kinematic_deltaPhi_Binning[Kinematic_deltaPhi_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_deltaPhi_Binning,Kinematic_deltaPhi_Binning,",");
+
+  // Kinematic_pTBalance_Binning
+  const int Kinematic_pTBalance_BinNumber = std::count(CS->Kinematic_pTBalance_Binning.begin(),CS->Kinematic_pTBalance_Binning.end(),',') +1;
+  double Kinematic_pTBalance_Binning[Kinematic_pTBalance_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_pTBalance_Binning,Kinematic_pTBalance_Binning,",");
+
+  // Kinematic_HT_Binning
+  const int Kinematic_HT_BinNumber = std::count(CS->Kinematic_HT_Binning.begin(),CS->Kinematic_HT_Binning.end(),',') +1;
+  double Kinematic_HT_Binning[Kinematic_HT_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_HT_Binning,Kinematic_HT_Binning,",");
+
+  // Kinematic_MHT_Binning
+  const int Kinematic_MHT_BinNumber = std::count(CS->Kinematic_MHT_Binning.begin(),CS->Kinematic_MHT_Binning.end(),',') +1;
+  double Kinematic_MHT_Binning[Kinematic_MHT_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_MHT_Binning,Kinematic_MHT_Binning,",");
+
+  // Kinematic_MHTPhi_Binning
+  const int Kinematic_MHTPhi_BinNumber = std::count(CS->Kinematic_MHTPhi_Binning.begin(),CS->Kinematic_MHTPhi_Binning.end(),',') +1;
+  double Kinematic_MHTPhi_Binning[Kinematic_MHTPhi_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_MHTPhi_Binning,Kinematic_MHTPhi_Binning,",");
+
+  // Kinematic_EMFrac_Binning
+  const int Kinematic_EMFrac_BinNumber = std::count(CS->Kinematic_EMFrac_Binning.begin(),CS->Kinematic_EMFrac_Binning.end(),',') +1;
+  double Kinematic_EMFrac_Binning[Kinematic_EMFrac_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_EMFrac_Binning,Kinematic_EMFrac_Binning,",");
+
+  // Kinematic_HECFrac_Binning
+  const int Kinematic_HECFrac_BinNumber = std::count(CS->Kinematic_HECFrac_Binning.begin(),CS->Kinematic_HECFrac_Binning.end(),',') +1;
+  double Kinematic_HECFrac_Binning[Kinematic_HECFrac_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_HECFrac_Binning,Kinematic_HECFrac_Binning,",");
+
+  // Kinematic_FracSamplingMax_Binning
+  const int Kinematic_FracSamplingMax_BinNumber = std::count(CS->Kinematic_FracSamplingMax_Binning.begin(),CS->Kinematic_FracSamplingMax_Binning.end(),',') +1;
+  double Kinematic_FracSamplingMax_Binning[Kinematic_FracSamplingMax_BinNumber] = {0.0};
+  myTools->stringToArray(CS->Kinematic_FracSamplingMax_Binning,Kinematic_FracSamplingMax_Binning,",");
+
   m_jetType.push_back("jet");
   m_jetType.push_back("trigJet");
   m_jetType.push_back("truthJet");
@@ -135,26 +214,26 @@ void TriggerHistoPack::BookAll(EL::Worker* wk)
       // check if jetType should be done
       if ((i == 0) && (!CS->doOfflineJetKinematics)) continue;
       if ((i == 1) && (!CS->doTriggerJetKinematics)) continue;
-      if ((i == 2) && (!CS->doTruthJetKinematics)) continue;
+      if ((i == 2) && ((CS->isData) || (!CS->doTruthJetKinematics))) continue;
 
       KinematicMatrix* kinematic = new KinematicMatrix(m_jetType.at(i), m_triggerDir + "/" + m_jetType.at(i) + "Kinematics", m_nthJet, CS);
 
-      kinematic->Book("E", "E", ptFineBinNumber-1, ptFineBinning, wk); //Due to problems in the JTPPPlotter with the logscale: use ptFineBinning
-      kinematic->Book("pt", "pt", ptFineBinNumber-1, ptFineBinning, wk);
-      kinematic->Book("phi", "phi", 50, -3.5, 3.5, wk);
-      kinematic->Book("eta", "eta", etaBinNumber-1, etaBinning, wk);
+      kinematic->Book("E", "E", Kinematic_E_BinNumber-1, Kinematic_E_Binning, wk); //Due to problems in the JTPPPlotter with the logscale: use ptFineBinning
+      kinematic->Book("pt", "pt", Kinematic_pt_BinNumber-1, Kinematic_pt_Binning, wk);
+      kinematic->Book("phi", "phi", Kinematic_phi_BinNumber-1, Kinematic_phi_Binning, wk);
+      kinematic->Book("eta", "eta", Kinematic_eta_BinNumber-1, Kinematic_eta_Binning, wk);
       //more observables
-      if(CS->doMjj)       kinematic->Book("mjj", "mjj", mjjBinNumber-1, mjjBinning, wk);
-      if(CS->doM23)       kinematic->Book("m23", "m23", mjjBinNumber-1, mjjBinning, wk);
-      if(CS->doyStar)     kinematic->Book("yStar", "yStar", 20, -0.7, 0.7, wk);
-      if(CS->doDeltaPhi)  kinematic->Book("deltaPhi", "deltaPhi", 25, 0.0001, 3.5, wk);
-      if(CS->doPTBalance) kinematic->Book("pTBalance", "pTBalance", 25, 0.0001, 1.0, wk);
-      if(CS->doHT)        kinematic->Book("HT", "HT", 50, 0.0001, 1000, wk);
-      if(CS->doMHT)       kinematic->Book("MHT", "MHT", 50, 0.0001, 1000, wk);
-      if(CS->doMHTPhi)    kinematic->Book("MHTPhi", "MHTPhi", 25, -3.5, 3.5, wk);
-      if(CS->doEMFrac)    kinematic->Book("EMFrac", "EMFrac", 25, 0.0, 1.0, wk);
-      if(CS->doHECFrac)   kinematic->Book("HECFrac", "HECFrac", 25, 0.0, 1.0, wk);
-      if(CS->doFracSamplingMax) kinematic->Book("FracSamplingMax", "FracSamplingMax", 25, 0.0, 1.0, wk);
+      if(CS->doMjj)       kinematic->Book("mjj", "mjj", Kinematic_mjj_BinNumber-1, Kinematic_mjj_Binning, wk);
+      if(CS->doM23)       kinematic->Book("m23", "m23", Kinematic_m23_BinNumber-1, Kinematic_m23_Binning, wk);
+      if(CS->doyStar)     kinematic->Book("yStar", "yStar", Kinematic_yStar_BinNumber-1, Kinematic_yStar_Binning, wk);
+      if(CS->doDeltaPhi)  kinematic->Book("deltaPhi", "deltaPhi", Kinematic_deltaPhi_BinNumber-1, Kinematic_deltaPhi_Binning, wk);
+      if(CS->doPTBalance) kinematic->Book("pTBalance", "pTBalance", Kinematic_pTBalance_BinNumber-1, Kinematic_pTBalance_Binning, wk);
+      if(CS->doHT)        kinematic->Book("HT", "HT", Kinematic_HT_BinNumber-1, Kinematic_HT_Binning, wk);
+      if(CS->doMHT)       kinematic->Book("MHT", "MHT", Kinematic_MHT_BinNumber-1, Kinematic_MHT_Binning, wk);
+      if(CS->doMHTPhi)    kinematic->Book("MHTPhi", "MHTPhi", Kinematic_MHTPhi_BinNumber-1, Kinematic_MHTPhi_Binning, wk);
+      if(CS->doEMFrac)    kinematic->Book("EMFrac", "EMFrac", Kinematic_EMFrac_BinNumber-1, Kinematic_EMFrac_Binning, wk);
+      if(CS->doHECFrac)   kinematic->Book("HECFrac", "HECFrac", Kinematic_HECFrac_BinNumber-1, Kinematic_HECFrac_Binning, wk);
+      if(CS->doFracSamplingMax) kinematic->Book("FracSamplingMax", "FracSamplingMax", Kinematic_FracSamplingMax_BinNumber-1, Kinematic_FracSamplingMax_Binning, wk);
 
 
       m_kinematicMap[m_jetType.at(i)] = kinematic;
@@ -173,7 +252,7 @@ void TriggerHistoPack::FillAll(EventData* ED_jet, EventData* ED_trigJet, EventDa
 
 
   // OfflineTruthResponse
- if (CS->doOfflineTruthResponse){
+ if ((!CS->isData) && (CS->doOfflineTruthResponse)){
      if (m_debug) std::cout << "Starting Filling of ptRespOffVsTruth..." << std::endl;
      ptRespOffVsTruthMatrix ->Fill(ED_jet->pt, ED_truthJet->pt, ED_truthJet->eta, m_weight, 1);
   }
@@ -183,21 +262,21 @@ void TriggerHistoPack::FillAll(EventData* ED_jet, EventData* ED_trigJet, EventDa
      ptRespTrigVsOffMatrix ->Fill(ED_trigJet->pt, ED_jet->pt, ED_jet->eta, matchingIndexList_TriggvsOff, m_weight, 1);
   }
 
- if (CS->doTriggerTruthResponse){
+ if ((!CS->isData) && (CS->doTriggerTruthResponse)){
      if (m_debug) std::cout << "Starting Filling of ptRespTrigVsTruth..." << std::endl;
      ptRespTrigVsTruthMatrix ->Fill(ED_trigJet->pt, ED_truthJet->pt, ED_truthJet->eta, matchingIndexList_TriggvsTruth, m_weight, 1);
   }
 
   // --- 2. mjj Response plots ---
 
- if (CS->doMjjResponseOffVsTruth){
+ if ((!CS->isData) && (CS->doMjjResponseOffVsTruth)){
      if ((matchingIndexList_OffvsTruth[0] != -1) && (matchingIndexList_OffvsTruth[1] != -1)){
         if (m_debug) std::cout << "Starting Filling of mjjRespOffVsTruth..." << std::endl;
         mjjRespOffVsTruthMatrix ->Fill(ED_jet->GetMjj(0,1), ED_truthJet->GetMjj(matchingIndexList_OffvsTruth[0],matchingIndexList_OffvsTruth[1]), ED_truthJet->eta->at(0), m_weight, 1);
      }
  }
 
- if (CS->doMjjResponseTrigVsTruth){
+ if ((!CS->isData) && (CS->doMjjResponseTrigVsTruth)){
      if ((matchingIndexList_TriggvsTruth[0] != -1) && (matchingIndexList_TriggvsTruth[1] != -1)){
         if (m_debug) std::cout << "Starting Filling of mjjRespTrigVsTruth..." << std::endl;
         mjjRespTrigVsTruthMatrix ->Fill(ED_trigJet->GetMjj(0,1), ED_truthJet->GetMjj(matchingIndexList_TriggvsTruth[0],matchingIndexList_TriggvsTruth[1]), ED_truthJet->eta->at(0), m_weight, 1);
@@ -228,7 +307,7 @@ void TriggerHistoPack::FillAll(EventData* ED_jet, EventData* ED_trigJet, EventDa
  }
 
  // Fill all truth jets Kinematics
- if (CS->doTruthJetKinematics){
+ if ((!CS->isData) && (CS->doTruthJetKinematics)){
      if (m_debug) std::cout << "Starting Filling Kinematics truthJet..." << std::endl;
      m_kinematicMap[m_jetType.at(2)]->FillAll(ED_truthJet, m_weight);
  }

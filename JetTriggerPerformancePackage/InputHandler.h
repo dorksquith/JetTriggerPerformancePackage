@@ -54,17 +54,23 @@ class InputHandler : public xAH::Algorithm
   // that way they can be set directly from CINT and python.
   public:
 
-    //configuration variables
+    // GRL
+    bool m_applyGRL;
+    string m_GRLxml;
+
+    // Debug
     bool m_debug;
     bool m_debugInExecute;
     bool m_coutPassedTriggers;
 
+    // branch strings
     string m_branch_offlineJet;
     string m_branch_triggerJet;
     string m_branch_truthJet;
     string m_branch_jet_truth;
     string m_branch_LVL1JetROI;
 
+    // specify triggers of interest
     string m_TriggerName;
     vector<string> m_confTriggers;
 
@@ -95,6 +101,23 @@ class InputHandler : public xAH::Algorithm
     bool m_calculateMjj;
     bool m_calculateM23;
     bool m_calculateYStar;
+
+    string m_Kinematic_E_Binning;
+    string m_Kinematic_pt_Binning;
+    string m_Kinematic_phi_Binning;
+    string m_Kinematic_eta_Binning;
+
+    string m_Kinematic_mjj_Binning;
+    string m_Kinematic_m23_Binning;
+    string m_Kinematic_yStar_Binning;
+    string m_Kinematic_deltaPhi_Binning;
+    string m_Kinematic_pTBalance_Binning;
+    string m_Kinematic_HT_Binning;
+    string m_Kinematic_MHT_Binning;
+    string m_Kinematic_MHTPhi_Binning;
+    string m_Kinematic_EMFrac_Binning;
+    string m_Kinematic_HECFrac_Binning;
+    string m_Kinematic_FracSamplingMax_Binning;
 
     bool m_doMatching;
     float m_DeltaRMax;
@@ -176,6 +199,8 @@ class InputHandler : public xAH::Algorithm
     string m_branch_LVL1JetROI_back;
 
     int numberOfEntries;
+
+    GoodRunsListSelectionTool*   m_grl;       //!
 
     int eventCounter; // 'It's the final countdown!'
 

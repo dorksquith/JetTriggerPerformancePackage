@@ -36,6 +36,8 @@ ClassImp(InputHandler)
 
 InputHandler :: InputHandler () :
     //constructor for variables
+    m_applyGRL(true),
+    m_GRLxml("$ROOTCOREBIN/data/ZprimeDM/data15_13TeV.periodAllYear_DetStatus-v64-pro19_DQDefects-00-01-02_PHYS_StandardGRL_All_Good.xml"),
     m_branch_offlineJet("jet_X"),
     m_branch_triggerJet("trigJet_X"),
     m_branch_truthJet("truthJet_X"),
@@ -44,7 +46,7 @@ InputHandler :: InputHandler () :
     m_debug(false),
     m_debugInExecute(false),
     m_coutPassedTriggers(false),
-    m_isData(false),
+    m_isData(true),
     m_checkLArError(false),
     m_doOfflineJetKinematics(false),
     m_doTriggerJetKinematics(false),
@@ -67,6 +69,21 @@ InputHandler :: InputHandler () :
     m_calculateMjj(false),
     m_calculateM23(false),
     m_calculateYStar(false),
+    m_Kinematic_E_Binning("15. ,20. ,25. ,35. ,45. ,55. ,70. ,85. ,100. ,116. ,134. ,152. ,172. ,194. ,216. ,240. ,264. ,290. ,318. ,346.,376.,408.,442.,478.,516.,556.,598.,642.,688.,736.,786.,838.,894.,952.,1012.,1076.,1162.,1250.,1310.,1420.,1530.,1750.,1992.,2242.,2500.,2850.,3200.,3600.,4000.,4600."),
+    m_Kinematic_pt_Binning("15. ,20. ,25. ,35. ,45. ,55. ,70. ,85. ,100. ,116. ,134. ,152. ,172. ,194. ,216. ,240. ,264. ,290. ,318. ,346.,376.,408.,442.,478.,516.,556.,598.,642.,688.,736.,786.,838.,894.,952.,1012.,1076.,1162.,1250.,1310.,1420.,1530.,1750.,1992.,2242.,2500.,2850.,3200.,3600.,4000.,4600."),
+    m_Kinematic_phi_Binning("-3.5, -3.36, -3.22, -3.08, -2.94, -2.8, -2.66, -2.52, -2.38, -2.24, -2.1, -1.96, -1.82, -1.68, -1.54, -1.4, -1.26, -1.12, -0.98, -0.84, -0.7, -0.56, -0.42, -0.28, -0.14, 0.0, 0.14, 0.28, 0.42, 0.56, 0.7, 0. 84, 0.98, 1.12, 1.26, 1.4, 1.54, 1.68, 1.82, 1.96, 2.1, 2.24, 2.38, 2.52, 2.66, 2.8, 2.94, 3.08, 3.22, 3.36, 3.5"),
+    m_Kinematic_eta_Binning("-4.9,-3.1,-2.8,-2.1,-1.8,-1.5,-1.2,-0.8,0.0,0.8,1.2,1.5,1.8,2.1,2.8,3.1,4.9"),
+    m_Kinematic_mjj_Binning("50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 203.0, 216.0, 229.0, 243.0, 257.0, 272.0, 287.0, 303.0, 319.0, 335.0, 352.0, 369.0, 387.0, 405.0, 424.0, 443.0, 462.0, 482.0, 502.0, 523.0, 544.0, 566.0, 588.0, 611.0, 634.0, 657.0, 681.0, 705.0, 730.0, 755.0, 781.0, 807.0, 834.0, 861.0, 889.0, 917.0, 946.0, 976.0, 1006.0, 1037.0, 1068.0, 1100.0, 1133.0, 1166.0, 1200.0, 1234.0, 1269.0, 1305.0, 1341.0, 1378.0, 1416.0, 1454.0, 1493.0, 1533.0, 1573.0, 1614.0, 1656.0, 1698.0, 1741.0, 1785.0, 1830.0, 1875.0, 1921.0, 1968.0, 2016.0, 2065.0, 2114.0, 2164.0, 2215.0, 2267.0, 2320.0, 2374.0, 2429.0, 2485.0, 2542.0, 2600.0, 2659.0, 2719.0, 2780.0, 2842.0, 2905.0, 2969.0, 3034.0, 3100.0, 3167.0, 3235.0, 3305.0, 3376.0, 3448.0, 3521.0, 3596.0, 3672.0, 3749.0, 3827.0, 3907.0, 3988.0, 4070.0, 4154.0, 4239.0, 4326.0, 4414.0, 4504.0, 4595.0, 4688.0, 4782.0, 4878.0, 4975.0, 5074.0, 5175.0, 5277.0, 5381.0, 5487.0, 5595.0, 5705.0, 5817.0, 5931.0, 6047.0, 6165.0, 6285.0, 6407.0, 6531.0, 6658.0, 6787.0, 6918.0, 7052.0, 7188.0, 7326.0, 7467.0, 7610.0, 7756.0, 7904.0, 8055.0, 8208.0, 8364.0, 8523.0, 8685.0, 8850.0, 9019.0, 9191.0, 9366.0, 9544.0, 9726.0, 9911.0, 10100.0, 10292.0, 10488.0, 10688.0, 10892.0, 11100.0, 11312.0, 11528.0, 11748.0, 11972.0, 12200.0, 12432.0, 12669.0, 12910.0, 13156.0"),
+    m_Kinematic_m23_Binning("50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 203.0, 216.0, 229.0, 243.0, 257.0, 272.0, 287.0, 303.0, 319.0, 335.0, 352.0, 369.0, 387.0, 405.0, 424.0, 443.0, 462.0, 482.0, 502.0, 523.0, 544.0, 566.0, 588.0, 611.0, 634.0, 657.0, 681.0, 705.0, 730.0, 755.0, 781.0, 807.0, 834.0, 861.0, 889.0, 917.0, 946.0, 976.0, 1006.0, 1037.0, 1068.0, 1100.0, 1133.0, 1166.0, 1200.0, 1234.0, 1269.0, 1305.0, 1341.0, 1378.0, 1416.0, 1454.0, 1493.0, 1533.0, 1573.0, 1614.0, 1656.0, 1698.0, 1741.0, 1785.0, 1830.0, 1875.0, 1921.0, 1968.0, 2016.0, 2065.0, 2114.0, 2164.0, 2215.0, 2267.0, 2320.0, 2374.0, 2429.0, 2485.0, 2542.0, 2600.0, 2659.0, 2719.0, 2780.0, 2842.0, 2905.0, 2969.0, 3034.0, 3100.0, 3167.0, 3235.0, 3305.0, 3376.0, 3448.0, 3521.0, 3596.0, 3672.0, 3749.0, 3827.0, 3907.0, 3988.0, 4070.0, 4154.0, 4239.0, 4326.0, 4414.0, 4504.0, 4595.0, 4688.0, 4782.0, 4878.0, 4975.0, 5074.0, 5175.0, 5277.0, 5381.0, 5487.0, 5595.0, 5705.0, 5817.0, 5931.0, 6047.0, 6165.0, 6285.0, 6407.0, 6531.0, 6658.0, 6787.0, 6918.0, 7052.0, 7188.0, 7326.0, 7467.0, 7610.0, 7756.0, 7904.0, 8055.0, 8208.0, 8364.0, 8523.0, 8685.0, 8850.0, 9019.0, 9191.0, 9366.0, 9544.0, 9726.0, 9911.0, 10100.0, 10292.0, 10488.0, 10688.0, 10892.0, 11100.0, 11312.0, 11528.0, 11748.0, 11972.0, 12200.0, 12432.0, 12669.0, 12910.0, 13156.0"),
+    m_Kinematic_yStar_Binning("-0.7, -0.63, -0.56, -0.49, -0.42, -0.35, -0.28, -0.21, -0.14, -0.07, 0.0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56, 0.63. 0.7"),
+    m_Kinematic_deltaPhi_Binning("0.001, 0.14, 0.28, 0.42, 0.56, 0.7, 0. 84, 0.98, 1.12, 1.26, 1.4, 1.54, 1.68, 1.82, 1.96, 2.1, 2.24, 2.38, 2.52, 2.66, 2.8, 2.94, 3.08, 3.22, 3.36, 3.5 "),
+    m_Kinematic_pTBalance_Binning("0.001, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1.0"),
+    m_Kinematic_HT_Binning("15. ,20. ,25. ,35. ,45. ,55. ,70. ,85. ,100. ,116. ,134. ,152. ,172. ,194. ,216. ,240. ,264. ,290. ,318. ,346.,376.,408.,442.,478.,516.,556.,598.,642.,688.,736.,786.,838.,894.,952.,1012.,1076.,1162.,1250.,1310.,1420.,1530.,1750.,1992.,2242.,2500.,2850.,3200.,3600.,4000.,4600."),
+    m_Kinematic_MHT_Binning("15. ,20. ,25. ,35. ,45. ,55. ,70. ,85. ,100. ,116. ,134. ,152. ,172. ,194. ,216. ,240. ,264. ,290. ,318. ,346.,376.,408.,442.,478.,516.,556.,598.,642.,688.,736.,786.,838.,894.,952.,1012.,1076.,1162.,1250.,1310.,1420.,1530.,1750.,1992.,2242.,2500.,2850.,3200.,3600.,4000.,4600."),
+    m_Kinematic_MHTPhi_Binning("-3.5, -3.36, -3.22, -3.08, -2.94, -2.8, -2.66, -2.52, -2.38, -2.24, -2.1, -1.96, -1.82, -1.68, -1.54, -1.4, -1.26, -1.12, -0.98, -0.84, -0.7, -0.56, -0.42, -0.28, -0.14, 0.0, 0.14, 0.28, 0.42, 0.56, 0.7, 0. 84, 0.98, 1.12, 1.26, 1.4, 1.54, 1.68, 1.82, 1.96, 2.1, 2.24, 2.38, 2.52, 2.66, 2.8, 2.94, 3.08, 3.22, 3.36, 3.5"),
+    m_Kinematic_EMFrac_Binning("0.001, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1.0"),
+    m_Kinematic_HECFrac_Binning("0.001, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1.0"),
+    m_Kinematic_FracSamplingMax_Binning("0.001, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1.0"),
     m_doMatching(false),
     m_DeltaRMax(0.4),
     m_doOfflineTruthResponse(false),
@@ -160,6 +177,21 @@ EL::StatusCode  InputHandler :: configure ()
                         m_calculateMjj,
                         m_calculateM23,
                         m_calculateYStar,
+                        m_Kinematic_E_Binning,
+                        m_Kinematic_pt_Binning,
+                        m_Kinematic_phi_Binning,
+                        m_Kinematic_eta_Binning,
+                        m_Kinematic_mjj_Binning,
+                        m_Kinematic_m23_Binning,
+                        m_Kinematic_yStar_Binning,
+                        m_Kinematic_deltaPhi_Binning,
+                        m_Kinematic_pTBalance_Binning,
+                        m_Kinematic_HT_Binning,
+                        m_Kinematic_MHT_Binning,
+                        m_Kinematic_MHTPhi_Binning,
+                        m_Kinematic_EMFrac_Binning,
+                        m_Kinematic_HECFrac_Binning,
+                        m_Kinematic_FracSamplingMax_Binning,
                         m_doMatching,
                         m_doOfflineTruthResponse,
                         m_doTriggerTruthResponse,
@@ -398,18 +430,21 @@ EL::StatusCode InputHandler :: changeInput (bool firstFile)
   tree->SetBranchStatus  ("eventNumber",    1);
   tree->SetBranchAddress ("eventNumber",    &m_eventNumber);
 
+  tree->SetBranchStatus  ("lumiBlock",    1);
+  tree->SetBranchAddress ("lumiBlock",    &m_lumiBlock);
+
   tree->SetBranchStatus  ("weight",    1);
   tree->SetBranchAddress ("weight",    &m_weight);
 
 
   // Data specific observables
-  if (CS->checkLArError){
+  if ((CS->isData) && (CS->checkLArError)){
       tree->SetBranchStatus  ("LArError", 1);
       tree->SetBranchAddress ("LArError", &m_LArError);
   }
 
   // Offline jets
-  if ((CS->doOfflineJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerOfflineResponse)||(CS->doTurnOns)){
+  if ((CS->doOfflineJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerOfflineResponse)|| (CS->doMjjResponseOffVsTruth) || (CS->doMjjResponseTrigVsOff) || (CS->doTurnOns)){
 
       if(m_debug) Info("InputHandler()", "Setting offline branches");
 
@@ -431,7 +466,7 @@ EL::StatusCode InputHandler :: changeInput (bool firstFile)
       tree->SetBranchStatus  ((m_branch_offlineJet_front + "m23" + m_branch_offlineJet_back).c_str(), 1);
       tree->SetBranchAddress ((m_branch_offlineJet_front + "m23" + m_branch_offlineJet_back).c_str(), &(ED_jet->m23));
 
-      if (CS->isData){
+      if ((CS->isData) && (CS->doCleaning)){
 	  tree->SetBranchStatus  ((m_branch_offlineJet_front + "clean_passLooseBad" + m_branch_offlineJet_back).c_str(), 1);
 	  tree->SetBranchAddress ((m_branch_offlineJet_front + "clean_passLooseBad" + m_branch_offlineJet_back).c_str(), &(ED_jet->passedCleaning));
       }
@@ -475,7 +510,7 @@ EL::StatusCode InputHandler :: changeInput (bool firstFile)
   }
 
   // Trigg jets
-  if ((CS->doTriggerJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)||((CS->doTurnOns)&&(CS->useEmulation))){
+  if ((CS->doTriggerJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)|| (CS->doMjjResponseTrigVsOff) || (CS->doMjjResponseTrigVsTruth) || ((CS->doTurnOns)&&(CS->useEmulation))){
 
       if(m_debug) Info("InputHandler()", "Setting trigger branches");
 
@@ -497,7 +532,7 @@ EL::StatusCode InputHandler :: changeInput (bool firstFile)
       tree->SetBranchStatus  ((m_branch_triggerJet_front + "m23" + m_branch_triggerJet_back).c_str(), 1);
       tree->SetBranchAddress ((m_branch_triggerJet_front + "m23" + m_branch_triggerJet_back).c_str(), &(ED_trigJet->m23));
 
-      if (CS->doCleaning){
+      if ((CS->isData) && (CS->doCleaning)){
 	  tree->SetBranchStatus  ((m_branch_triggerJet_front + "_clean_passLooseBad" + m_branch_triggerJet_back).c_str(), 1);
 	  tree->SetBranchAddress ((m_branch_triggerJet_front + "_clean_passLooseBad" + m_branch_triggerJet_back).c_str(), &(ED_trigJet->passedCleaning));
       }
@@ -541,7 +576,8 @@ EL::StatusCode InputHandler :: changeInput (bool firstFile)
   }
 
   // Truth jets
-  if ((CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerTruthResponse) || (CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerTruthResponse)){
+  if ((!CS->isData) &&
+      ((CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerTruthResponse)|| (CS->doMjjResponseOffVsTruth) || (CS->doMjjResponseTrigVsTruth))){
 
       if(m_debug) Info("InputHandler()", "Setting truth branches");
 
@@ -631,6 +667,18 @@ EL::StatusCode InputHandler :: initialize ()
   // you create here won't be available in the output if you have no
   // input events.
 
+
+  // Initialise GRL
+  if ((CS->isData) && (m_applyGRL)){
+    m_grl = new GoodRunsListSelectionTool("GoodRunsListSelectionTool");
+    std::vector<std::string> vecStringGRL;
+    m_GRLxml = gSystem->ExpandPathName( m_GRLxml.c_str() );
+    vecStringGRL.push_back(m_GRLxml);
+    RETURN_CHECK("BasicEventSelection::initialize()", m_grl->setProperty( "GoodRunsListVec", vecStringGRL), "");
+    RETURN_CHECK("BasicEventSelection::initialize()", m_grl->setProperty("PassThrough", false), "");
+    RETURN_CHECK("BasicEventSelection::initialize()", m_grl->initialize(), "");
+  }
+
   Info("initialize()", "Succesfully initialized! \n");
   return EL::StatusCode::SUCCESS;
 }
@@ -683,16 +731,29 @@ EL::StatusCode InputHandler :: execute ()
 
   // --- check if jet vector has more than 1 jets otherwise skip this event
   // check offline jets
-  if ((CS->doOfflineJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)||(CS->doTurnOns)){
+  if ((CS->doOfflineJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)|| (CS->doMjjResponseOffVsTruth) || (CS->doMjjResponseTrigVsTruth) || (CS->doTurnOns)){
       if(ED_jet->eta->size() < 2) return EL::StatusCode::SUCCESS;
   }
   // check trigger jets
-  if ((CS->doTriggerJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)||((CS->doTurnOns)&&(CS->useEmulation))){
+  if ((CS->doTriggerJetKinematics)||(CS->doTriggerTruthResponse)||(CS->doTriggerOfflineResponse)|| (CS->doMjjResponseTrigVsOff) || (CS->doMjjResponseTrigVsTruth) || ((CS->doTurnOns)&&(CS->useEmulation))){
       if(ED_trigJet->eta->size() < 2) return EL::StatusCode::SUCCESS;
   }
   // check truth jets
-  if ((CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerTruthResponse)){
+  if ((!CS->isData) &&
+      ((CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)|| (CS->doMjjResponseOffVsTruth) || (CS->doMjjResponseTrigVsTruth) || (CS->doTriggerTruthResponse))){
       if(ED_truthJet->eta->size() < 2) return EL::StatusCode::SUCCESS;
+  }
+
+  // GRL
+  if ((CS->isData) && (m_applyGRL)){
+
+    if (!m_grl->passRunLB( m_runNumber, m_lumiBlock ) ) {
+        if(m_debugInExecute) cout << "GRL:: Fail Event " << endl;
+        return EL::StatusCode::SUCCESS; // go to next event
+    }else{
+        if(m_debugInExecute) cout << "GRL:: Pass Event " << endl;
+    }
+
   }
 
   if (m_debugInExecute){
@@ -708,7 +769,7 @@ EL::StatusCode InputHandler :: execute ()
   cutH->Reset(TD->ref_passedTrigger);
 
   // CHECK LArERROR
-  if (CS->checkLArError) cutH->AddCut(!m_LArError); // if argument is false, event does NOT pass
+  if ((CS->isData) && (CS->checkLArError)) cutH->AddCut(!m_LArError); // if argument is false, event does NOT pass
 
   if (CS->doCuts){
       // Add simple cuts on observables
@@ -718,8 +779,6 @@ EL::StatusCode InputHandler :: execute ()
       //"absmax": cutValue is maximal value of |observable|
       //"absmin": cutValue is minimal value of |observable|
       // cuts in GeV!
-
-      //NOTE: Cuts are made on trigger jets!
 
       // leading pt cut
       //cutH->AddCut(ED_trigJet->pt->at(0), 30.0, "min");
@@ -771,11 +830,6 @@ EL::StatusCode InputHandler :: execute ()
           cutH->SearchPassBits(TD->ref_triggerName,TD->ref_passBits, TD->event_isPassBitsNames, TD->event_isPassBits);
       }
 
-/*      cout << " === passed Bits === " << endl;
-      for (int j=0; j < TD->probe_triggerName.size(); j++){
-        cout << "probe: " << TD->probe_triggerName.at(j) << " ::: passedBit: " << TD->probe_passBits.at(j) << " ::: passed:" << TD->probe_passedTrigger.at(j) << " ::: prescaledOut: " << TD->probe_prescaledOut.at(j) << endl;
-        cout << "ref  : " << TD->ref_triggerName.at(j)   << " ::: passedBit: " << TD->ref_passBits.at(j)   << " ::: passed:" << TD->ref_passedTrigger.at(j)   << " ::: prescaledOut: " << TD->ref_prescaledOut.at(j)   << endl;
-      } */
   }
 
   //Apply trigger specific cuts
@@ -794,12 +848,6 @@ EL::StatusCode InputHandler :: execute ()
       }
   }
 
-  //TODO crosscheck
-  /*  cout << "============================" << endl;
-  cout << "The triggers that passes:..." << TD->event_passedTriggers->size() << endl;
-  for (int n=0; n < TD->event_passedTriggers->size(); n++){
-      cout << TD->event_passedTriggers->at(n) << endl;
-      }*/
 
   /* ======= Matching ======= */
 
@@ -875,7 +923,7 @@ EL::StatusCode InputHandler :: execute ()
       for (unsigned int i = 0; i < ED_jet->pt->size(); i++) {
         // first set true
         ED_jet->isGood[i] = true;
-        if (CS->doCleaning) {
+        if ((CS->isData) && (CS->doCleaning)) {
 	      if (ED_jet->passedCleaning->at(i) == 0) ED_jet->isGood[i] = false;
         }
       }
@@ -886,13 +934,13 @@ EL::StatusCode InputHandler :: execute ()
       for (unsigned int i = 0; i < ED_trigJet->pt->size(); i++) {
         // first set true
         ED_trigJet->isGood[i] = true;
-        if (CS->doCleaning) {
+        if ((CS->isData) && (CS->doCleaning)) {
 	      if (ED_trigJet->passedCleaning->at(i) == 0) ED_trigJet->isGood[i] = false;
         }
       }
   }
 
-  // TRUTH JETS
+  // TRUTH JETS (No cleaning performed here, but isGood vector is needed for filling)
   if ((CS->doTruthJetKinematics)||(CS->doOfflineTruthResponse)||(CS->doTriggerTruthResponse)){
       for (unsigned int i = 0; i < ED_truthJet->pt->size(); i++) {
         // first set true

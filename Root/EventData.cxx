@@ -28,10 +28,10 @@ EventData::~EventData()
   if (m_debug) std::cout << "Starting destructor EventData()..." << std::endl;
 }
 
-bool EventData::isLSGood()
+bool EventData::isObsGood(int i, int j)
 {
     if (m_debug) std::cout << "Starting destructor isLSGood()..." << std::endl;
-    if ((isGood.at(0)) && (isGood.at(1))) return true;
+    if ((isGood.at(i)) && (isGood.at(j))) return true;
     else return false;
 }
 

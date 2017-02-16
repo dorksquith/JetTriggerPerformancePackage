@@ -47,6 +47,21 @@ class ConfigStatus: public BaseJTPP
          bool a_calculateMjj,
          bool a_calculateM23,
          bool a_calculateYStar,
+         std::string a_Kinematic_E_Binning,
+         std::string a_Kinematic_pt_Binning,
+         std::string a_Kinematic_phi_Binning,
+         std::string a_Kinematic_eta_Binning,
+         std::string a_Kinematic_mjj_Binning,
+         std::string a_Kinematic_m23_Binning,
+         std::string a_Kinematic_yStar_Binning,
+         std::string a_Kinematic_deltaPhi_Binning,
+         std::string a_Kinematic_pTBalance_Binning,
+         std::string a_Kinematic_HT_Binning,
+         std::string a_Kinematic_MHT_Binning,
+         std::string a_Kinematic_MHTPhi_Binning,
+         std::string a_Kinematic_EMFrac_Binning,
+         std::string a_Kinematic_HECFrac_Binning,
+         std::string a_Kinematic_FracSamplingMax_Binning,
          bool a_doMatching,
          bool a_doOfflineTruthResponse,
 		 bool a_doTriggerTruthResponse,
@@ -132,6 +147,23 @@ class ConfigStatus: public BaseJTPP
     const bool calculateMjj;
     const bool calculateM23;
     const bool calculateYStar;
+
+    // Kinematic Binning
+    const std::string Kinematic_E_Binning;
+    const std::string Kinematic_pt_Binning;
+    const std::string Kinematic_phi_Binning;
+    const std::string Kinematic_eta_Binning;
+    const std::string Kinematic_mjj_Binning;
+    const std::string Kinematic_m23_Binning;
+    const std::string Kinematic_yStar_Binning;
+    const std::string Kinematic_deltaPhi_Binning;
+    const std::string Kinematic_pTBalance_Binning;
+    const std::string Kinematic_HT_Binning;
+    const std::string Kinematic_MHT_Binning;
+    const std::string Kinematic_MHTPhi_Binning;
+    const std::string Kinematic_EMFrac_Binning;
+    const std::string Kinematic_HECFrac_Binning;
+    const std::string Kinematic_FracSamplingMax_Binning;
 
     // Matching
     const bool doMatching;
