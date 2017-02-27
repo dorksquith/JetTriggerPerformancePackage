@@ -380,7 +380,7 @@ for EvalType in EvalTypeList:
 
             # create histo names
             histoName = "TurnOns" + "/" + "effic_pt_" + EvalType + "_" + TurnonName
-            histoNameDN = "TurnOns" + "/" + "effic_DENOM_pt_" + EvalType + "_" + TurnonName
+            histoNameDN = "TurnOns" + "/" + "effic_DENUM_pt_" + EvalType + "_" + TurnonName
 
             # load histograms from Data
             histo = fin.Get(histoName)
